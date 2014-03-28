@@ -4,7 +4,7 @@
 #
 define docker::run(
   $image,
-  $command,
+  $command = false,
   $memory_limit = '0',
   $ports = [],
   $volumes = [],
@@ -19,12 +19,15 @@ define docker::run(
   $lxc_conf = [],
   $restart_service = true,
   $disable_network = false,
+  $demon = false,
 ) {
 
   validate_re($image, '^[\S]*$')
   validate_re($title, '^[\S]*$')
   validate_re($memory_limit, '^[\d]*$')
-  validate_string($command)
+  if $command {
+    validate_string($command)
+  }
   if $username {
     validate_string($username)
   }

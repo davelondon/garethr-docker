@@ -58,6 +58,16 @@ require 'spec_helper'
       it { should contain_file(initscript).without_content(/-h ''/) }
     end
 
+    context 'when enabling demon mode' do
+      let(:params) { {'image' => 'base', 'demon' => true} }
+      it { should contain_file(initscript).with_content(/ -d /) }
+    end
+
+    context 'when not enabling demon mode' do
+      let(:params) { {'command' => 'command', 'image' => 'base'} }
+      it { should contain_file(initscript).without_content(/ -d /) }
+    end
+
     context 'when passing a username' do
       let(:params) { {'command' => 'command', 'image' => 'base', 'username' => 'bob'} }
       it { should contain_file(initscript).with_content(/-u 'bob'/) }
